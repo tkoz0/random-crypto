@@ -6,11 +6,7 @@
 #include <string.h>
 
 // initial values
-#define HASH_SHA1_H0 0x67452301
-#define HASH_SHA1_H1 0xEFCDAB89
-#define HASH_SHA1_H2 0x98BADCFE
-#define HASH_SHA1_H3 0x10325476
-#define HASH_SHA1_H4 0xC3D2E1F0
+const uint32_t _SHA1_INIT[5] = { 0x67452301, 0xEFCDAB89, 0x98BADCFE, 0x10325476, 0xC3D2E1F0 };
 // round functions
 #define _F1(B,C,D) ((B & C) | ((~B) & D))
 #define _F2(B,C,D) (B ^ C ^ D)
@@ -127,7 +123,8 @@ void hash_sha1_bytes(const uint8_t * restrict array, size_t len, uint8_t * restr
 {
     const uint8_t *end = array + len;
     const uint8_t *block = array;
-    uint32_t h[5] = {HASH_SHA1_H0,HASH_SHA1_H1,HASH_SHA1_H2,HASH_SHA1_H3,HASH_SHA1_H4};
+    uint32_t h[5];
+    memcpy(h,_SHA1_INIT,20);
     while (block + 64 <= end)
     {
         hash_sha1_block(h,(uint32_t*)block);

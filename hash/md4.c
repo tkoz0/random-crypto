@@ -5,10 +5,7 @@
 #include <string.h>
 
 // initial values
-#define HASH_MD4_A0 0x67452301
-#define HASH_MD4_B0 0xefcdab89
-#define HASH_MD4_C0 0x98badcfe
-#define HASH_MD4_D0 0x10325476
+const uint32_t _MD4_INIT[4] = { 0x67452301, 0xefcdab89, 0x98badcfe, 0x10325476};
 // nonlinear round functions
 #define _F(B,C,D) ((B & C) | ((~B) & D))
 #define _G(B,C,D) ((B & C) | (B & D) | (C & D))
@@ -92,7 +89,8 @@ void hash_md4_bytes(const uint8_t * restrict array, size_t len, uint8_t * restri
 {
     const uint8_t *end = array + len;
     const uint8_t *block = array;
-    uint32_t h[4] = {HASH_MD4_A0,HASH_MD4_B0,HASH_MD4_C0,HASH_MD4_D0};
+    uint32_t h[4];
+    memcpy(h,_MD4_INIT,16);
     while (block + 64 <= end)
     {
         hash_md4_block(h,(uint32_t*)block);

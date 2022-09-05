@@ -13,6 +13,13 @@ void print_u32hbe(uint32_t *a, size_t l)
     printf("\n");
 }
 
+void print_u64hbe(uint64_t *a, size_t l)
+{
+    while (l--)
+        printf("%08lx",bswap_64(*(a++)));
+    printf("\n");
+}
+
 void test_md2()
 {
     char *m[3] =
@@ -103,14 +110,82 @@ void test_sha1()
     }
 }
 
+void test_sha256()
+{
+    char *m[1] =
+    {
+        ""
+    };
+    uint32_t h[8];
+    for (size_t i = 0; i < 1; ++i)
+    {
+        hash_sha256_bytes((uint8_t*)m[i],strlen(m[i]),(uint8_t*)&h);
+        print_u32hbe(h,8);
+    }
+}
+
+void test_sha224()
+{
+    char *m[3] =
+    {
+        "The quick brown fox jumps over the lazy dog",
+        "The quick brown fox jumps over the lazy dog.",
+        ""
+    };
+    uint32_t h[7];
+    for (size_t i = 0; i < 3; ++i)
+    {
+        hash_sha224_bytes((uint8_t*)m[i],strlen(m[i]),(uint8_t*)&h);
+        print_u32hbe(h,7);
+    }
+}
+
+void test_sha512()
+{
+    char *m[1] =
+    {
+        ""
+    };
+    uint64_t h[8];
+    for (size_t i = 0; i < 1; ++i)
+    {
+        hash_sha512_bytes((uint8_t*)m[i],strlen(m[i]),(uint8_t*)&h);
+        print_u64hbe(h,8);
+    }
+}
+
+void test_sha384()
+{
+    char *m[1] =
+    {
+        ""
+    };
+    uint64_t h[8];
+    for (size_t i = 0; i < 1; ++i)
+    {
+        hash_sha384_bytes((uint8_t*)m[i],strlen(m[i]),(uint8_t*)&h);
+        print_u64hbe(h,6);
+    }
+}
+
 int main(int argc, char **argv)
 {
+    printf("md2\n");
     test_md2();
-    printf("\n");
+    printf("md4\n");
     test_md4();
-    printf("\n");
+    printf("md5\n");
     test_md5();
-    printf("\n");
+    printf("sha1\n");
     test_sha1();
+    printf("sha256\n");
+    test_sha256();
+    printf("sha224\n");
+    test_sha224();
+    printf("sha512\n");
+    test_sha512();
+    printf("sha384\n");
+    test_sha384();
+    printf("\n");
     return 0;
 }
