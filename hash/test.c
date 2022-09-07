@@ -168,16 +168,44 @@ void test_sha384()
     }
 }
 
+void test_ripemd128()
+{
+    char *m[8] =
+    {
+        "",
+        "a",
+        "abc",
+        "message digest",
+        "abcdefghijklmnopqrstuvwxyz",
+        "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+        "12345678901234567890123456789012345678901234567890123456789012345678901234567890"
+    };
+    uint32_t h[4];
+    for (size_t i = 0; i < 8; ++i)
+    {
+        hash_ripemd128_bytes((uint8_t*)m[i],strlen(m[i]),(uint8_t*)&h);
+        print_u32hbe(h,4);
+    }
+}
+
 void test_ripemd160()
 {
-    char *m[3] =
+    char *m[10] =
     {
         "The quick brown fox jumps over the lazy dog",
         "The quick brown fox jumps over the lazy cog",
-        ""
+        "",
+        "a",
+        "abc",
+        "message digest",
+        "abcdefghijklmnopqrstuvwxyz",
+        "abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq",
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789",
+        "12345678901234567890123456789012345678901234567890123456789012345678901234567890"
     };
     uint32_t h[5];
-    for (size_t i = 0; i < 3; ++i)
+    for (size_t i = 0; i < 10; ++i)
     {
         hash_ripemd160_bytes((uint8_t*)m[i],strlen(m[i]),(uint8_t*)&h);
         print_u32hbe(h,5);
@@ -202,6 +230,8 @@ int main(int argc, char **argv)
     test_sha512();
     printf("sha384\n");
     test_sha384();
+    printf("ripemd128\n");
+    test_ripemd128();
     printf("ripemd160\n");
     test_ripemd160();
     return 0;
