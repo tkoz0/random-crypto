@@ -168,6 +168,22 @@ void test_sha384()
     }
 }
 
+void test_ripemd160()
+{
+    char *m[3] =
+    {
+        "The quick brown fox jumps over the lazy dog",
+        "The quick brown fox jumps over the lazy cog",
+        ""
+    };
+    uint32_t h[5];
+    for (size_t i = 0; i < 3; ++i)
+    {
+        hash_ripemd160_bytes((uint8_t*)m[i],strlen(m[i]),(uint8_t*)&h);
+        print_u32hbe(h,5);
+    }
+}
+
 int main(int argc, char **argv)
 {
     printf("md2\n");
@@ -186,6 +202,7 @@ int main(int argc, char **argv)
     test_sha512();
     printf("sha384\n");
     test_sha384();
-    printf("\n");
+    printf("ripemd160\n");
+    test_ripemd160();
     return 0;
 }

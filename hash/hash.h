@@ -21,3 +21,6 @@ void hash_sha256_bytes(const uint8_t * restrict array, size_t len, uint8_t * res
 void hash_sha224_bytes(const uint8_t * restrict array, size_t len, uint8_t * restrict hash);
 void hash_sha512_bytes(const uint8_t * restrict array, size_t len, uint8_t * restrict hash);
 void hash_sha384_bytes(const uint8_t * restrict array, size_t len, uint8_t * restrict hash);
+
+void hash_ripemd160_block(uint32_t * restrict hash, const uint32_t * restrict M);
+void hash_ripemd160_bytes(const uint8_t * restrict array, size_t len, uint8_t * restrict hash);
